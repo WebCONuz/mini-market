@@ -1,4 +1,5 @@
 const { errorHandler } = require("../helpers/error-handler");
+const User = require("../models/user.model");
 
 const addData = async (req, res) => {
   try {
@@ -12,8 +13,10 @@ const addData = async (req, res) => {
 
 const getAll = async (req, res) => {
   try {
+    const allData = await User.findAll();
     res.status(200).send({
-      message: "Get All",
+      msg: "Success",
+      data: allData,
     });
   } catch (error) {
     errorHandler(error, res);
