@@ -1,10 +1,10 @@
 const { errorHandler } = require("../helpers/error-handler");
-const User = require("../models/user.model");
 const Order = require("../models/order.model");
+const User = require("../models/user.model");
 
 const addData = async (req, res) => {
   try {
-    const newData = await User.create(req.body);
+    const newData = await Order.create(req.body);
     res.status(201).send({
       message: "Create",
       data: newData,
@@ -16,14 +16,12 @@ const addData = async (req, res) => {
 
 const getAll = async (req, res) => {
   try {
-    const allData = await User.findAll({
+    const allData = await Order.findAll({
       include: {
-        model: Order,
-        as: "orders",
-        attributes: ["id", "total_price", "is_active"],
-      },
-      attributes: {
-        exclude: ["is_active", "password", "refresh_token", "role"],
+        model: User,
+        attributes: {
+          exclude: ["is_active", "password", "refresh_token", "role"],
+        },
       },
     });
     res.status(200).send({
@@ -37,14 +35,12 @@ const getAll = async (req, res) => {
 
 const getOne = async (req, res) => {
   try {
-    const oneData = await User.findByPk(+req.params.id, {
+    const oneData = await Order.findByPk(+req.params.id, {
       include: {
-        model: Order,
-        as: "orders",
-        attributes: ["id", "total_price", "is_active"],
-      },
-      attributes: {
-        exclude: ["is_active", "password", "refresh_token", "role"],
+        model: User,
+        attributes: {
+          exclude: ["is_active", "password", "refresh_token", "role"],
+        },
       },
     });
     res.status(200).send({
@@ -58,8 +54,8 @@ const getOne = async (req, res) => {
 
 const editData = async (req, res) => {
   try {
-    const oneData = await User.findByPk(+req.params.id);
-    const editData = await User.update(
+    const oneData = await Order.findByPk(+req.params.id);
+    const editData = await Order.update(
       { ...oneData, ...req.body },
       {
         where: {
@@ -78,7 +74,7 @@ const editData = async (req, res) => {
 
 const remove = async (req, res) => {
   try {
-    await User.destroy({
+    await Order.destroy({
       where: {
         id: +req.params.id,
       },
