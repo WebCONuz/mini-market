@@ -8,7 +8,6 @@ const createTokens = (payload) => {
   const refreshToken = jwt.sign(payload, config.get("refresh_key"), {
     expiresIn: config.get("refresh_time"),
   });
-
   return { accessToken, refreshToken };
 };
 
